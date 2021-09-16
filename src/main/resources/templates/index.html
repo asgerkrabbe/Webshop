@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>VELKOMMEN TIL KRABBES ONLINE LAGERHUS</h1>
+<main>
+<div>
+
+<table>
+    <tbody>
+    <tr th:each="product : ${products}" >
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td><a href="product.html"></a>Rediger</td>
+    </tr>
+    </tbody>
+
+
+
+</table>
+
+
+</div>
+</main>
+</body>
+</html>
