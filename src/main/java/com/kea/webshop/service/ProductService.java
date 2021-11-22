@@ -12,11 +12,13 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-    @Autowired
     ProductRepository productRepository;
 
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
-    public Optional<Product> findById(Long id) {
+    public Optional<Product> findProductById(Long id) {
         return productRepository.findById(id);
     }
 
@@ -24,13 +26,9 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public List<Product> findAll(){
-        List<Product> productList = new ArrayList<>();
+    public List<Product> getAllProducts() {
 
-        for (Product p:productRepository.findAll()) {
-            productList.add(p);
-        }
-        return productList;
+        return (List<Product>) productRepository.findAll();
     }
 
     public void editProduct(Product product) {

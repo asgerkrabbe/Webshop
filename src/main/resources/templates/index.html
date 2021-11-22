@@ -7,24 +7,66 @@
 <body>
 <h1>VELKOMMEN TIL KRABBES ONLINE LAGERHUS</h1>
 <main>
-<div>
-
-<table>
-    <tbody>
-    <tr th:each="product : ${products}" >
-        <td th:text="${product.name}"></td>
-        <td th:text="${product.price}"></td>
-        <td><a th:href="{'/product/ + ${product.id}}">Rediger</a></td>
-        <td><a th:href="{'/delete/ + ${product.id}}">Rediger</a></td>
-    </tr>
-    </tbody>
 
 
+    <div class="product-table" id="products">
+        <h3>Produkter</h3>
 
-</table>
+        <table>
+            <thead>
+            <tr>id</tr>
+            <tr>Name</tr>
+            <tr>Price</tr>
+            </thead>
+
+            <tbody class="product-t-body">
+
+            </tbody>
+        </table>
+    </div>
 
 
-</div>
 </main>
 </body>
 </html>
+
+<script>
+    function localCache() {
+        let products = []
+
+        return {
+            getAllProducts: () => products,
+            populateProducts: (all) => products = all,
+            findProductById: (id) => products.find(p => p.id == id),
+            findProductByName: (name) => products.find(p => p.name === name)
+        }
+    }
+
+
+    sessionStorage.setItem("URL", "http://localhost:8080");
+    const URL = sessionStorage.getItem("URL")
+    const cache = localCache();
+    fetchProducts()
+
+    function fetchProducts() {
+        fetch(URL + "/products")
+            .then(response => response.json())
+            .then(data => {
+                cache.populateProducts(data)
+                buildRows()
+            })
+    }
+
+    function buildRows() {
+        const products = cache.getAllProducts()
+        const rows = products.map(product => {
+            return `<tr class="member-box">
+            <td>${product.id}</td>
+            <td>${product.name}</td>
+            <td>${product.price}</td>
+        </tr>`;
+        })
+        document.getElementById("product-t-body").innerHTML = rows.join("")
+    }
+
+</script>
